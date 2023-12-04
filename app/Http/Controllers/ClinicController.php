@@ -5,62 +5,42 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreClinicRequest;
 use App\Http\Requests\UpdateClinicRequest;
 use App\Models\Clinic;
+use Illuminate\Http\JsonResponse;
 
 class ClinicController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function __construct(private Clinic $clinic){}
+    
+    public function index() : JsonResponse
     {
-        //
+        return response()->json($this->clinic->all(), JsonResponse::HTTP_OK);  
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreClinicRequest $request) : JsonResponse
     {
-        //
+        $clinic = Clinic::createOrFail($request->all());
+        return response()->json($clinic, JsonResponse::HTTP_OK);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreClinicRequest $request)
+    public function show(Clinic $clinic) : JsonResponse
     {
-        //
+        return response()->json($clinic,JsonResponse::HTTP_OK);  //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Clinic $clinic)
+    public function update(UpdateClinicRequest $request, Clinic $clinic) : JsonResponse
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Clinic $clinic)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateClinicRequest $request, Clinic $clinic)
-    {
-        //
+        $clinic->updateOrFail($request->all());
+        $clinic->saveOrFail();
+        return response()->json(JsonResponse::HTTP_OK);  //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Clinic $clinic)
+    public function destroy(Clinic $clinic) : JsonResponse
     {
-        //
+        $clinic->deleteOrFail();
+        return response()->json(JsonResponse::HTTP_OK);  //
     }
 }

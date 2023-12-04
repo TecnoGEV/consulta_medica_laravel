@@ -28,9 +28,6 @@ class AttendanceController extends Controller
         return response()->json($attendance, JsonResponse::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateAttendanceRequest $request, Attendance $attendance) : JsonResponse
     {
         $attendance->updateOrFail($request->all());
@@ -38,9 +35,6 @@ class AttendanceController extends Controller
         return response()->json($attendance, JsonResponse::HTTP_OK);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Attendance $attendance): JsonResponse
     {
         $attendance->deleteOrFail();

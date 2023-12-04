@@ -38,6 +38,6 @@ class AppointmentController extends Controller
     public function destroy(Appointment $appointment): JsonResponse
     {
         $appointment->deleteOrFail();
-        return response()->json(JsonResponse::HTTP_NO_CONTENT);
+        return response()->statusCode(JsonResponse::HTTP_NO_CONTENT);
     }
 }
