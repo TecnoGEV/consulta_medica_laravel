@@ -22,17 +22,26 @@ class AppointmentController extends Controller
             ->statusCode(JsonResponse::HTTP_CREATED)
             ->header('Location', url("/api/appointments/{$appointment->id}"));
     }                                           
-
+    
+   
     public function show(Appointment $appointment): JsonResponse
     {
         return response()->json($appointment, JsonResponse::HTTP_NO_CONTENT);
     }
 
-    public function update(UpdateAppointmentRequest $request, Appointment $appointment): JsonResponse
+    function update(UpdateAppointmentRequest $request, Appointment $appointment): JsonResponse
     {
+        if(strlen($appointment->id) === 0) {
+            return response()->statusCode(JsonResponse::HTTP_NOT_FOUND);
+        }
+
         $appointment->updateOrFail($request->all());
-        $appointment->saveOrFail();
-        return response()->json($appointment, JsonResponse::HTTP_OK);
+
+        if ($appointment->saveOrFail()) {
+            return response()->statusCode(JsonResponse::HTTP_OK);
+        }
+        
+        return response()->statusCode(JsonResponse::HTTP_NOT_MODIFIED);
     }
 
     public function destroy(Appointment $appointment): JsonResponse

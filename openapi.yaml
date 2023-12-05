@@ -1,0 +1,44 @@
+openapi: 3.0.0
+info:
+  title: 'Clinica medica'
+  description: ''
+  version: 1.0.0-beta
+paths:
+  '/api/appointments/{id}':
+    get:
+      tags:
+        - Appointments
+      summary: 'Exibe informações de um agendamento'
+      description: 'Retorna os detalhes de um agendamento específico.'
+      operationId: 13b46cd03a1dae29a4c4dd6e756d37da
+      parameters:
+        -
+          name: appointment
+          in: path
+          description: 'ID do agendamento'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Sucesso
+  '/api/appointments/{appointment}':
+    get:
+      tags:
+        - Appointments
+      summary: 'Exibe informações de um agendamento'
+      description: 'Retorna os detalhes de um agendamento específico.'
+      operationId: 0c9e168cfbd1bbf030fd2d330d84d824
+      parameters:
+        -
+          name: appointment
+          in: path
+          description: 'ID do agendamento'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Sucesso

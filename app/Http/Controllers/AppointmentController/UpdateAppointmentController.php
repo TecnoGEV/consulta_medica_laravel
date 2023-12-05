@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\AppointmentConroller;
+namespace App\Http\Controllers\AppointmentController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateAppointmentRequest;
 use App\Models\Appointment;
 use Illuminate\Http\JsonResponse;
 
-class StoreAppointmentController extends Controller
+class UpdateAppointmentController extends Controller
 {
 
+    
     function __invoke(UpdateAppointmentRequest $request, Appointment $appointment): JsonResponse
     {
         if(strlen($appointment->id) === 0) {
