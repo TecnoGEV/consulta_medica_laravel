@@ -23,16 +23,21 @@ class ClinicController extends Controller
         return response()->json($clinic, JsonResponse::HTTP_OK);
     }
 
-    public function show(Clinic $clinic) : JsonResponse
-    {
-        return response()->json($clinic,JsonResponse::HTTP_OK);  //
+    public function show(string $clinic) : JsonResponse
+    {   $clinic_find = Clinic::find(intval($clinic));
+        if (empty($clinic_find)) {
+            return response()->json(['error' => 'Clinica não existe'], JsonResponse::HTTP_NOT_FOUND);
+        }
+        return response()->json($clinic_find);
     }
 
     public function update(UpdateClinicRequest $request, Clinic $clinic) : JsonResponse
-    {
+    {   
+
         $clinic->updateOrFail($request->all());
         $clinic->saveOrFail();
-        return response()->json(JsonResponse::HTTP_OK);  //
+
+        return response()->statusCode(['success' => "Atualizado com sucesso"],JsonResponse::HTTP_OK);  //
     }
 
     /**
