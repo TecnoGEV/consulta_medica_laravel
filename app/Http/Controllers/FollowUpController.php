@@ -8,9 +8,7 @@ use App\Models\FollowUp;
 
 class FollowUpController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
     public function index()
     {
         //

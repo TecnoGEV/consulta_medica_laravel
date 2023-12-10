@@ -29,28 +29,28 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
-        
+
         $this->renderable(function (NotFoundHttpException $e, Request $request) {
             if ($request->is('api/*')) {
                 $pattern = '/^No query results/';
-        
+
                 preg_match($pattern, $e->getMessage(), $matches);
 
                 return response()->json([
-                    'error' => $matches[0]
-                ], 404);                                                                                                                                                                                                                        
+                    'error' => $matches[0],
+                ], 404);
             }
         });
 
         // $this->renderable(function (NotFoundHttpException $e, Request $request) {
         //     if ($request->is('api/*')) {
         //         $pattern = '/^No query results/';
-        
+
         //         preg_match($pattern, $e->getMessage(), $matches);
 
         //         return response()->json([
         //             'error' => $matches[0]
-        //         ], 404);                                                                                                                                                                                                                        
+        //         ], 404);
         //     }
         // });
     }

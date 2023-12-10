@@ -9,30 +9,37 @@ use Illuminate\Http\JsonResponse;
 
 class AttendanceController extends Controller
 {
-
-    public function index() : JsonResponse
+    public function  __construct(private Attendance $attendance)
     {
-        return response()->json(Attendance::all(), JsonResponse::HTTP_OK);
+        
+    }
+    public function index(): JsonResponse
+    {
+        return response()->json($this->attendance->all()->paginate(20, ['*'], 'page'), JsonResponse::HTTP_OK);
     }
 
     public function store(StoreAttendanceRequest $request): JsonResponse
     {
-        $attendance = Attendance::createOrFail($request->all());
+        $attendance = $this->attendance->createOrFail($request->all());
+
         return response()
             ->json($attendance, JsonResponse::HTTP_CREATED)
             ->header('Location', url("/api/attendance/{$attendance->id}"));
     }
 
-    public function show(Attendance $attendance) : JsonResponse
+    public function show(Attendance $attendance): JsonResponse
     {
-        return response()->json($attendance, JsonResponse::HTTP_OK);
+        return response()->json(['attendance' => $attendance]);
     }
 
-    public function update(UpdateAttendanceRequest $request, Attendance $attendance) : JsonResponse
+    public function update(UpdateAttendanceRequest $request, Attendance $attendance): JsonResponse
     {
         $attendance->updateOrFail($request->all());
         $attendance->saveOrFail();
-        return response()->json($attendance, JsonResponse::HTTP_OK);
+        return response()->json([
+            'attendance' => $attendance,
+            'status' => 'Atualizado com sucesso',
+        ]);
     }
 
     public function destroy(Attendance $attendance): JsonResponse

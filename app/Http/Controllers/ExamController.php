@@ -1,27 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreExamRequest;
 use App\Http\Requests\UpdateExamRequest;
 use App\Models\Exam;
+use Illuminate\Http\JsonResponse;
 
 class ExamController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(private Exam $exam)
     {
-        //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return response()->json($this->exam->all()->paginate(20, ['*'], 'page'));
     }
 
     /**
@@ -29,38 +25,31 @@ class ExamController extends Controller
      */
     public function store(StoreExamRequest $request)
     {
-        //
+        $exam = $this->exam->createOrFail($request->all());
+
+        return response()->json([
+            'exam' => $exam,
+            'status' => 'Criado com sucesso',
+        ])->header('Location', url("/api/exams/{$exam->id}"));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Exam $exam)
+    public function show(Exam $exam): JsonResponse
     {
-        //
+        return response()->json(['exam' => $exam]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Exam $exam)
+    public function update(UpdateExamRequest $request, Exam $exam): JsonResponse
     {
-        //
+        $exam->updateOrFail($request->all());
+        $exam->saveOrFail();
+
+        return response()->json(['exam' => $exam, 'status' => 'Atualizado com sucesso.']);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateExamRequest $request, Exam $exam)
+    public function destroy(Exam $exam): JsonResponse
     {
-        //
-    }
+        $exam->deleteOrFail();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Exam $exam)
-    {
-        //
+        return response()->statusCode(JsonResponse::HTTP_NO_CONTENT);
     }
 }

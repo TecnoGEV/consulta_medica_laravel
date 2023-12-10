@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\AppointmentController\ShowAppointmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

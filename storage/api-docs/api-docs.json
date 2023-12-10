@@ -49,7 +49,16 @@
     },
     "components": {
         "schemas": {
-            "Appointment": {}
+            "Appointment": {
+                "title": "Appointment",
+                "properties": {
+                    "name": {
+                        "description": "Name of the appointment",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
         }
     }
 }
