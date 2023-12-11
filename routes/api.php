@@ -12,9 +12,6 @@ use App\Http\Controllers\LaboratoryController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SpecializationController;
-use App\Models\Consultation;
-use App\Models\FollowUp;
-use App\Models\Laboratory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
