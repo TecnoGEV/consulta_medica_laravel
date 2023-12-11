@@ -8,6 +8,7 @@ use App\Http\Requests\StoreExamRequest;
 use App\Http\Requests\UpdateExamRequest;
 use App\Models\Exam;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class ExamController extends Controller
 {
@@ -17,39 +18,33 @@ class ExamController extends Controller
 
     public function index(): JsonResponse
     {
-        return response()->json($this->exam->all()->paginate(20, ['*'], 'page'));
+        return response()->json($this->exam->paginate(20, ['*'], 'page'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreExamRequest $request)
+    public function store(StoreExamRequest $request) : Response
     {
-        $exam = $this->exam->createOrFail($request->all());
+        $this->exam->createOrFail($request->all());
 
-        return response()->json([
-            'exam' => $exam,
-            'status' => 'Criado com sucesso',
-        ])->header('Location', url("/api/exams/{$exam->id}"));
+        return response(status: Response::HTTP_CREATED, headers:[
+            'Location' => url("/api/exams/{$this->exam->id}")
+        ]);
     }
 
     public function show(Exam $exam): JsonResponse
     {
-        return response()->json(['exam' => $exam]);
+        return response()->json($exam);
     }
 
     public function update(UpdateExamRequest $request, Exam $exam): JsonResponse
-    {
+    { 
         $exam->updateOrFail($request->all());
-        $exam->saveOrFail();
-
-        return response()->json(['exam' => $exam, 'status' => 'Atualizado com sucesso.']);
+        $exam->push();
+        return response()->json($exam, JsonResponse::HTTP_ACCEPTED);
     }
 
-    public function destroy(Exam $exam): JsonResponse
+    public function destroy(Exam $exam): Response
     {
         $exam->deleteOrFail();
-
-        return response()->statusCode(JsonResponse::HTTP_NO_CONTENT);
+        return response(status:Response::HTTP_NO_CONTENT);
     }
 }

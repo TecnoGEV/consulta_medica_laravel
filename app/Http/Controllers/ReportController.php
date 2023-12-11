@@ -1,66 +1,50 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
 use App\Models\Report;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class ReportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    
+    public function __construct(private Report $report)
+    {        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index() : JsonResponse
     {
-        //
+        return response()->json($this->report->paginate('20', ['*'], 'page'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreReportRequest $request)
+    public function store(StoreReportRequest $request) : Response
     {
-        //
+        $this->report->create($request->all());
+        return response(status:Response::HTTP_CREATED, headers:[
+            'Location' => url("/api/reports/{$this->report->id}")
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Report $report)
+    public function show(Report $report) : JsonResponse
     {
-        //
+        return response()->json($report);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Report $report)
+    public function update(UpdateReportRequest $request, Report $report) : JsonResponse
     {
-        //
+        $report->updateOrFail($request->all());
+        $report->push();
+        return response()->json(data:$report, status:JsonResponse::HTTP_ACCEPTED);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReportRequest $request, Report $report)
+    public function destroy(Report $report): Response
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Report $report)
-    {
-        //
+        $report->deleteOrFail();
+        return response(status:Response::HTTP_NO_CONTENT);
     }
 }

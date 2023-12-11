@@ -1,65 +1,49 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class DoctorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(private Doctor $doctor)
+    {        
+    }
+
     public function index(): JsonResponse
     {
-        return response()->json(['doctors' => Doctor::all()->paginate(20, ['*'], 'page')]);
+        return response()->json($this->doctor->paginate(20, ['*'], 'page'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreDoctorRequest $request): JsonResponse
+    public function store(StoreDoctorRequest $request): Response
     {
-        $doctor = Doctor::createOrFail($request->all());
-
-        return response()
-            ->json([
-                'doctors' => $doctor,
-                'status' => 'Criado com sucesso',
-            ])->header('Location', url("/api/doctors/{$doctor->id}"));
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Doctor $doctor): JsonResponse
-    {
-        return response()->json(['doctor' => $doctor]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateDoctorRequest $request, Doctor $doctor)
-    {
-        $doctor->updateOrFail($request->all());
-        $doctor->saveOrFail();
-
-        return response()->json([
-            'doctor' => $doctor,
-            'status' => 'Atualizado com sucesso.',
+        $this->doctor->create($request->all());
+        return response(status: Response::HTTP_CREATED, headers:[
+            'Location'=> url("/api/doctors/{$this->doctor->id}")
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Doctor $doctor): JsonResponse
+    public function show(Doctor $doctor): JsonResponse
+    {
+        return response()->json($doctor);
+    }
+
+    public function update(UpdateDoctorRequest $request, Doctor $doctor)
+    {
+        $doctor->updateOrFail($request->all());
+        $doctor->push();
+        return response()->json($doctor,JsonResponse::HTTP_ACCEPTED);
+    }
+
+    public function destroy(Doctor $doctor): Response
     {
         $doctor->deleteOrFail();
-
-        return response()->statusCode(JsonResponse::HTTP_NO_CONTENT);
+        return response(status:Response::HTTP_NO_CONTENT);
     }
 }

@@ -5,5 +5,14 @@ POST http://127.0.0.1:8000/api/appointments
 }
 
 ###
-GET http://127.0.0.1:8000/api/127.0.0.1:8000/api/appointments/8
+GET http://127.0.0.1:8000/api/appointments
 
+###
+PATCH  http://127.0.0.1:8000/api/appointments/2
+
+{
+    "id": 90
+}
+
+###
+DELETE  http://127.0.0.1:8000/api/appointments/1

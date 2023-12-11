@@ -1,52 +1,58 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreClinicRequest;
 use App\Http\Requests\UpdateClinicRequest;
 use App\Models\Clinic;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Laminas\Diactoros\Response\JsonResponse as ResponseJsonResponse;
 
 class ClinicController extends Controller
 {
-    public function index(): JsonResponse
+
+    public function __construct(private Clinic $clinic)
     {
-        return response()->json(['clinic' => Clinic::all()->paginate(20, ['*'], 'page')], JsonResponse::HTTP_OK);
+        
     }
 
-    public function store(StoreClinicRequest $request): JsonResponse
+    public function index(): JsonResponse
     {
-        $clinic = Clinic::createOrFail($request->all());
+        return response()->json($this->clinic->paginate(20, ['*'], 'page'));
+    }
 
-        return response()
-            ->json(['clinic' => $clinic], JsonResponse::HTTP_CREATED)
-            ->header('Location', url("/api/clinics/{$clinic}"));
+    public function store(StoreClinicRequest $request): Response
+    {
+        $clinic = $this->clinic->create($request->all());
+
+        return response(status: Response::HTTP_CREATED, headers:[
+            'Location' => url("/api/clinics/{$clinic}")
+        ]);
     }
 
     public function show(Clinic $clinic): JsonResponse
     {
-        return response()->json(['clinic' => $clinic]);
+        return response()->json($clinic);
     }
 
     public function update(UpdateClinicRequest $request, Clinic $clinic): JsonResponse
     {
 
         $clinic->updateOrFail($request->all());
-        $clinic->saveOrFail();
-
-        return response()->statusCode([
-            'clinic' => $clinic,
-            'status' => 'Atualizado com sucesso',
-        ]);
+        $clinic->push();
+        return response()->json($clinic, JsonResponse::HTTP_ACCEPTED);
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Clinic $clinic): JsonResponse
+    public function destroy(Clinic $clinic): Response
     {
         $clinic->deleteOrFail();
-
-        return response()->json(JsonResponse::HTTP_NO_CONTENT);  //
+        return response(status:Response::HTTP_NO_CONTENT);
     }
 }

@@ -1,65 +1,49 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDiagnosisRequest;
 use App\Http\Requests\UpdateDiagnosisRequest;
 use App\Models\Diagnosis;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class DiagnosisController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(private Diagnosis $diagnosis)
+    {
+    }
+
     public function index(): JsonResponse
     {
-        return response()->json(['data' => Diagnosis::all()->paginate(20, ['*'], 'page')]);
+        return response()->json($this->diagnosis->paginate('20', ['*'], 'page'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreDiagnosisRequest $request)
+    public function store(StoreDiagnosisRequest $request) : Response
     {
-        $created = Diagnosis::createOrFail($request->all());
-
-        return response()->json([
-            'diagnosis' => $created,
-            'status' => 'Criado com sucesso.',
-        ], JsonResponse::HTTP_CREATED)
-            ->header('Location', url("/api/diagnosis/{$created}"));
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Diagnosis $diagnosis)
-    {
-        return response()->json(['diagnosis' => $diagnosis]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateDiagnosisRequest $request, Diagnosis $diagnosis): JsonResponse
-    {
-        $diagnosis->updateOrFail($request->all());
-        $diagnosis->saveOrFail();
-
-        return response()->json([
-            'diagnosis' => $diagnosis,
-            'status' => 'Atualizado com sucesso.',
+        $this->diagnosis->create($request->all());
+        return response(status:Response::HTTP_CREATED, headers: [
+            'Location' => url("/api/diagnosis/{$this->diagnosis->id}")
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Diagnosis $diagnosis): JsonResponse
+    public function show(Diagnosis $diagnosis) : JsonResponse
+    {
+        return response()->json($diagnosis);
+    }
+
+    public function update(UpdateDiagnosisRequest $request, Diagnosis $diagnosis): JsonResponse
+    {
+        $diagnosis->updateOrFail($request->all());
+        $diagnosis->push();
+        return response()->json($diagnosis, JsonResponse::HTTP_ACCEPTED);
+    }
+
+    public function destroy(Diagnosis $diagnosis): Response
     {
         $diagnosis->deleteOrFail();
-
-        return response()->statusCode(JsonResponse::HTTP_NO_CONTENT);
+        return response(status:Response::HTTP_NO_CONTENT);
     }
 }

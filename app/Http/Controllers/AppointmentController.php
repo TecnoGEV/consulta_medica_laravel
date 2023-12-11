@@ -18,16 +18,16 @@ class AppointmentController extends Controller
 
     public function index(): JsonResponse
     {
-        return response()->json($this->appointment->paginate('20', ['*'], 'page'), JsonResponse::HTTP_OK);
+        return response()->json($this->appointment->paginate('20', ['*'], 'page'));
     }
 
     public function store(StoreAppointmentRequest $request) : Response
     {
-        $appointment = $this->appointment->create($request->all());
+        $this->appointment->create($request->all());
         return response(
             status:Response::HTTP_CREATED, 
             headers:[
-                 'Location' => url("/api/appointments/{$appointment->id}")
+                'Location' => url("/api/appointments/{$this->appointment->id}")
             ]
         );
     }
@@ -90,14 +90,12 @@ class AppointmentController extends Controller
     {
         $appointment->updateOrFail($request->all());
         $appointment->push();
-
-        return response()->json(['appointment' => $appointment], status:JsonResponse::HTTP_OK);
+        return response()->json($appointment, status:JsonResponse::HTTP_ACCEPTED);
     }
 
     public function destroy(Appointment $appointment): Response
     {
         $appointment->deleteOrFail();
-
-        return response(status:JsonResponse::HTTP_NO_CONTENT);
+        return response(status:Response::HTTP_NO_CONTENT);
     }
 }

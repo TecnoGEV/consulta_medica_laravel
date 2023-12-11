@@ -1,55 +1,51 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLaboratoryRequest;
 use App\Http\Requests\UpdateLaboratoryRequest;
 use App\Models\Laboratory;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class LaboratoryController extends Controller
 {
+
+    public function __construct(private Laboratory $laboratory)
+    {
+    }
+
     public function index(): JsonResponse
     {
-        return response()->json(Laboratory::all(), JsonResponse::HTTP_OK);
+        return response()->json($this->laboratory->paginnate('20',['*'],'page'));
     }
 
-    public function store(StoreLaboratoryRequest $request): JsonResponse
+    public function store(StoreLaboratoryRequest $request): Response
     {
-        $laboratory = Laboratory::createOrFail($request->all());
+        $this->laboratory->create($request->all());
 
-        return response()->json(
-            $laboratory,
-            JsonResponse::HTTP_CREATED,
-        )->header('Location', url("/api/laboratorio/{$laboratory->id}"));
+        return response(status:JsonResponse::HTTP_CREATED, headers:[
+            'Location' => url("/api/laboratorio/{$this->laboratory->id}")
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Laboratory $laboratory)
     {
-        return response()->json($laboratory, JsonResponse::HTTP_OK);
+        return response()->json($laboratory,JsonResponse::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateLaboratoryRequest $request, Laboratory $laboratory): JsonResponse
     {
         $laboratory->updateOrFail($request->all());
-        $laboratory->saveOrFail();
-
-        return response()->json($laboratory, JsonResponse::HTTP_OK);
+        $laboratory->push();
+        return response()->json($laboratory, JsonResponse::HTTP_ACCEPTED);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Laboratory $laboratory)
+    public function destroy(Laboratory $laboratory) : Response
     {
         $laboratory->deleteOrFail();
-
-        return response()->statusCode(JsonResponse::HTTP_NO_CONTENT);
+        return response(status:JsonResponse::HTTP_NO_CONTENT);
     }
 }

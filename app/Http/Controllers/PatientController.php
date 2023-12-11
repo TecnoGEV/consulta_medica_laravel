@@ -1,66 +1,49 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
 use App\Models\Patient;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class PatientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function __construct(private Patient $patient)
+    {   
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index() : JsonResponse
     {
-        //
+        return response()->json($this->patient->paginate('20', ['*'], 'page'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePatientRequest $request)
+    public function store(StorePatientRequest $request) : Response
     {
-        //
+        $this->patient->create($request->all());
+        return response(status:Response::HTTP_CREATED, headers:[
+            'Location' => url("/api/patients/{$this->patient->id}")
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Patient $patient)
+    public function show(Patient $patient) : JsonResponse
     {
-        //
+        return response()->json($patient);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Patient $patient)
+    public function update(UpdatePatientRequest $request, Patient $patient) : JsonResponse
     {
-        //
+        $patient->update($request->all());
+        $patient->push();
+        return response()->json($patient, status: JsonResponse::HTTP_ACCEPTED);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePatientRequest $request, Patient $patient)
+    public function destroy(Patient $patient) : Response
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Patient $patient)
-    {
-        //
+        $patient->deleteOrFail();
+        return response(status:Response::HTTP_NO_CONTENT);
     }
 }

@@ -1,66 +1,51 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSpecializationRequest;
 use App\Http\Requests\UpdateSpecializationRequest;
 use App\Models\Specialization;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class SpecializationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    
+    public function __construct(private Specialization $specialization)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index() : JsonResponse
     {
-        //
+        return response()->json($this->specialization->paginate('20',['*'], 'page')); 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreSpecializationRequest $request)
+    public function store(StoreSpecializationRequest $request) : Response
     {
-        //
+        $this->specialization->create($request->all());
+        return response(status: Response::HTTP_CREATED, headers: [
+            'Location' => url("/api/specializations/{$this->specialization->id}")
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Specialization $specialization)
+    public function show(Specialization $specialization) : JsonResponse
     {
-        //
+        return response()->json($specialization);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Specialization $specialization)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateSpecializationRequest $request, Specialization $specialization)
     {
-        //
+        $specialization->updateOrFail($request->all());
+        $specialization->push();
+        return response()->json($specialization, status:JsonResponse::HTTP_ACCEPTED);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Specialization $specialization)
+    public function destroy(Specialization $specialization) : Response
     {
-        //
+        $specialization->deleteOrFail();
+        return response(status:Response::HTTP_NO_CONTENT);
     }
 }

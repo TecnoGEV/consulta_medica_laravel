@@ -1,64 +1,50 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFollowUpRequest;
 use App\Http\Requests\UpdateFollowUpRequest;
 use App\Models\FollowUp;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class FollowUpController extends Controller
 {
    
-    public function index()
-    {
-        //
+    public function __construct(private FollowUp $followUp)
+    {        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function index() : JsonResponse
+    {    
+        return response()->json($this->followUp->paginate('20', ['*'], 'page'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreFollowUpRequest $request)
+    public function store(StoreFollowUpRequest $request) : Response
     {
-        //
+        $this->followUp->create($request->all());
+        return response(status:Response::HTTP_CREATED, headers:[
+            'Location' => url("api/follow-ups/{$this->followUp->id}")
+        ]); 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(FollowUp $followUp)
+    public function show(FollowUp $followUp) : JsonResponse
     {
-        //
+        return response()->json($followUp);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(FollowUp $followUp)
+    public function update(UpdateFollowUpRequest $request, FollowUp $followUp) : JsonResponse
     {
-        //
+        $followUp->updateOrFail($request->all());
+        $followUp->push();
+        return response()->json($followUp, JsonResponse::HTTP_ACCEPTED);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateFollowUpRequest $request, FollowUp $followUp)
+    public function destroy(FollowUp $followUp) : Response
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(FollowUp $followUp)
-    {
-        //
+        $followUp->deleteOrFail();
+        return response(status:Response::HTTP_NO_CONTENT);
     }
 }
