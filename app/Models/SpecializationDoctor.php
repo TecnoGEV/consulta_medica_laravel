@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Clinic extends Model
+class SpecializationDoctor extends Model
 {
     use HasFactory;
-    
+
+    protected $table = 'specialization_doctors';
+
     protected $fillable = [
-        'business_name',
-        'state_registration',
-        'inscricao_municipal',
-        'cnpj',
-        'responsavel_tecnico',
+        'doctor_id',
+        'specialization_id',
     ];
-    
+
 
 }
