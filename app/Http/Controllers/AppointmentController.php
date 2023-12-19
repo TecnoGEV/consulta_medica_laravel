@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
 use App\Models\Appointment;
+use Cep\ViaCep;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 

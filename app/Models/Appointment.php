@@ -23,7 +23,12 @@ class Appointment extends Model
      *     description="Name of the appointment"
      * )
      */
-    protected $filable = [
-        'name',
+    protected $fillable = [
+        'date',
+        'hour',
+        'type_appointment',
+        'doctor_id',
+        'patient_id'
     ];
+
 }
