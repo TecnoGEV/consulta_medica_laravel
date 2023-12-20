@@ -27,7 +27,7 @@ class ClinicController extends Controller
         $clinic = $this->clinic->create($request->all());
 
         return response(status: Response::HTTP_CREATED, headers: [
-            'Location' => url("/api/clinics/{$clinic}"),
+            'Location' => url("/api/clinics/{$clinic->id}"),
         ]);
     }
 

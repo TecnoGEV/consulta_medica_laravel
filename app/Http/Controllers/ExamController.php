@@ -23,10 +23,10 @@ class ExamController extends Controller
 
     public function store(StoreExamRequest $request): Response
     {
-        $this->exam->createOrFail($request->all());
+        $exam = $this->exam->createOrFail($request->all());
 
         return response(status: Response::HTTP_CREATED, headers: [
-            'Location' => url("/api/exams/{$this->exam->id}"),
+            'Location' => url("/api/exams/{$exam->id}"),
         ]);
     }
 

@@ -23,10 +23,10 @@ class ConsultationController extends Controller
 
     public function store(StoreConsultationRequest $request): Response
     {
-        $this->consultation->create($request->all());
+        $consultation = $this->consultation->create($request->all());
 
         return response(status: Response::HTTP_CREATED, headers: [
-            'Location' => url("/api/consultations/{$this->consultation->id}"),
+            'Location' => url("/api/consultations/{$consultation->id}"),
         ]);
     }
 

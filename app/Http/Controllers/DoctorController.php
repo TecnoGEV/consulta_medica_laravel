@@ -23,10 +23,10 @@ class DoctorController extends Controller
 
     public function store(StoreDoctorRequest $request): Response
     {
-        $this->doctor->create($request->all());
+        $doctor = $this->doctor->create($request->all());
 
         return response(status: Response::HTTP_CREATED, headers: [
-            'Location' => url("/api/doctors/{$this->doctor->id}"),
+            'Location' => url("/api/doctors/{$doctor->id}"),
         ]);
     }
 

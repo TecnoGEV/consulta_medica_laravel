@@ -23,10 +23,10 @@ class ReportController extends Controller
 
     public function store(StoreReportRequest $request): Response
     {
-        $this->report->create($request->all());
+        $report = $this->report->create($request->all());
 
         return response(status: Response::HTTP_CREATED, headers: [
-            'Location' => url("/api/reports/{$this->report->id}"),
+            'Location' => url("/api/reports/{$report->id}"),
         ]);
     }
 

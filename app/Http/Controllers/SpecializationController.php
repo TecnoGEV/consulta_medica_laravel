@@ -24,10 +24,10 @@ class SpecializationController extends Controller
 
     public function store(StoreSpecializationRequest $request): Response
     {
-        $this->specialization->create($request->all());
+       $specialization = $this->specialization->create($request->all());
 
         return response(status: Response::HTTP_CREATED, headers: [
-            'Location' => url("/api/specializations/{$this->specialization->id}"),
+            'Location' => url("/api/specializations/{$specialization->id}"),
         ]);
     }
 

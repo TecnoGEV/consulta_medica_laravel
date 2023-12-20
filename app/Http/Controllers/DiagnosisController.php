@@ -23,10 +23,10 @@ class DiagnosisController extends Controller
 
     public function store(StoreDiagnosisRequest $request): Response
     {
-        $this->diagnosis->create($request->all());
+        $diagnosis = $this->diagnosis->create($request->all());
 
         return response(status: Response::HTTP_CREATED, headers: [
-            'Location' => url("/api/diagnosis/{$this->diagnosis->id}"),
+            'Location' => url("/api/diagnosis/{$diagnosis->id}"),
         ]);
     }
 

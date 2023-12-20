@@ -23,10 +23,10 @@ class LaboratoryController extends Controller
 
     public function store(StoreLaboratoryRequest $request): Response
     {
-        $this->laboratory->create($request->all());
+        $laboratory = $this->laboratory->create($request->all());
 
         return response(status: JsonResponse::HTTP_CREATED, headers: [
-            'Location' => url("/api/laboratorio/{$this->laboratory->id}"),
+            'Location' => url("/api/laboratorio/{$laboratory->id}"),
         ]);
     }
 
