@@ -1,13 +1,11 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ExamController;
-use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\LaboratoryController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ReportController;
@@ -30,15 +28,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/appointments', AppointmentController::class);
-Route::apiResource('/attendances', AttendanceController::class);
-Route::apiResource('/clinics', ClinicController::class);
-Route::apiResource('/consultations', ConsultationController::class);
-Route::apiResource('/diagnoseis', DiagnosisController::class);
-Route::apiResource('/doctors', DoctorController::class);
-Route::apiResource('/exams', ExamController::class);
-Route::apiResource('/followups', FollowUpController::class);
-Route::apiResource('/laboratories', LaboratoryController::class);
-Route::apiResource('/patienties', PatientController::class);
-Route::apiResource('/reports', ReportController::class);
-Route::apiResource('/specializations', SpecializationController::class);
+Route::apiResource('/appointments',     AppointmentController::class);
+Route::apiResource('/clinics',          ClinicController::class);
+Route::apiResource('/consultations',    ConsultationController::class);
+Route::apiResource('/diagnoseis',       DiagnosisController::class);
+Route::apiResource('/doctors',          DoctorController::class);
+Route::apiResource('/exams',            ExamController::class);
+Route::apiResource('/laboratories',     LaboratoryController::class);
+Route::apiResource('/patients',       PatientController::class);
+Route::apiResource('/reports',          ReportController::class);
+Route::apiResource('/specializations',  SpecializationController::class);

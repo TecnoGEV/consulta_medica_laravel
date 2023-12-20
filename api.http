@@ -5,7 +5,35 @@ POST http://127.0.0.1:8000/api/appointments
 }
 
 ###
-GET http://127.0.0.1:8000/api/appointments
+GET http://127.0.0.1:8000/api/patients
+
+###
+GET http://127.0.0.1:8000/api/patients/1
+
+###
+GET http://127.0.0.1:8000/api/clinics/1
+###
+GET http://127.0.0.1:8000/api/clinics
+
+
+###
+GET http://127.0.0.1:8000/api/doctors/1
+###
+GET http://127.0.0.1:8000/api/doctors
+
+###
+GET http://127.0.0.1:8000/api/appointments/1
+
+###
+GET http://127.0.0.1:8000/api/patient/ficha-tecnica/1
+
+####
+POST http://127.0.0.1:8000/api/patients
+Content-Type: application/json
+
+{
+    "id":10
+}
 
 ###
 PATCH  http://127.0.0.1:8000/api/appointments/2

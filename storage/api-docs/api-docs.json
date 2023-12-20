@@ -45,6 +45,46 @@
                     }
                 }
             }
+        },
+        "/api/patienties/{patient}": {
+            "get": {
+                "summary": "Get patient by ID",
+                "description": "Returns a single patient",
+                "operationId": "getPatientById",
+                "parameters": [
+                    {
+                        "name": "patient",
+                        "in": "path",
+                        "description": "ID of the patient",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Patient located successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Patient"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Patient not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -58,6 +98,9 @@
                     }
                 },
                 "type": "object"
+            },
+            "Patient": {
+                "title": "Patient"
             }
         }
     }
