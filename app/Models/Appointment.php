@@ -30,7 +30,7 @@ class Appointment extends Model
         'type_appointment',
     ];
 
-    public function patient() : BelongsTo 
+    public function patient(): BelongsTo
     {
         return $this->belongsTo(Patient::class);
     }

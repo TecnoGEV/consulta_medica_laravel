@@ -16,10 +16,11 @@ class Report extends Model
         'documents_repo_complete_url',
     ];
 
-    public function laboratory(): BelongsTo 
+    public function laboratory(): BelongsTo
     {
         return $this->belongsTo(Laboratory::class);
     }
+
     public function exam(): BelongsTo
     {
         return $this->belongsTo(Exam::class);

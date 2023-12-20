@@ -30,15 +30,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/appointments',     AppointmentController::class);
-Route::apiResource('/attendances',      AttendanceController::class);
-Route::apiResource('/clinics',          ClinicController::class);
-Route::apiResource('/consultations',    ConsultationController::class);
-Route::apiResource('/diagnoseis',       DiagnosisController::class);
-Route::apiResource('/doctors',          DoctorController::class);
-Route::apiResource('/exams',            ExamController::class);
-Route::apiResource('/followups',        FollowUpController::class);
-Route::apiResource('/laboratories',     LaboratoryController::class);
-Route::apiResource('/patienties',       PatientController::class);
-Route::apiResource('/reports',          ReportController::class);
-Route::apiResource('/specializations',  SpecializationController::class);
+Route::apiResource('/appointments', AppointmentController::class);
+Route::apiResource('/attendances', AttendanceController::class);
+Route::apiResource('/clinics', ClinicController::class);
+Route::apiResource('/consultations', ConsultationController::class);
+Route::apiResource('/diagnoseis', DiagnosisController::class);
+Route::apiResource('/doctors', DoctorController::class);
+Route::apiResource('/exams', ExamController::class);
+Route::apiResource('/followups', FollowUpController::class);
+Route::apiResource('/laboratories', LaboratoryController::class);
+Route::apiResource('/patienties', PatientController::class);
+Route::apiResource('/reports', ReportController::class);
+Route::apiResource('/specializations', SpecializationController::class);

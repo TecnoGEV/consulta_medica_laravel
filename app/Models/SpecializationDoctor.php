@@ -15,6 +15,4 @@ class SpecializationDoctor extends Model
         'doctor_id',
         'specialization_id',
     ];
-
-
 }

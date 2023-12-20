@@ -10,5 +10,6 @@ use OpenApi\Attributes as OA;
 #[OA\Info('1.0.0-beta', '', 'Clinica medica')]
 class Controller extends BaseController
 {
-    use AuthorizesRequests, ValidatesRequests;
+    use AuthorizesRequests;
+    use ValidatesRequests;
 }

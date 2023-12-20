@@ -9,14 +9,12 @@ use App\Http\Requests\UpdateClinicRequest;
 use App\Models\Clinic;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Laminas\Diactoros\Response\JsonResponse as ResponseJsonResponse;
 
 class ClinicController extends Controller
 {
-
     public function __construct(private Clinic $clinic)
     {
-        
+
     }
 
     public function index(): JsonResponse
@@ -28,8 +26,8 @@ class ClinicController extends Controller
     {
         $clinic = $this->clinic->create($request->all());
 
-        return response(status: Response::HTTP_CREATED, headers:[
-            'Location' => url("/api/clinics/{$clinic}")
+        return response(status: Response::HTTP_CREATED, headers: [
+            'Location' => url("/api/clinics/{$clinic}"),
         ]);
     }
 
@@ -40,19 +38,16 @@ class ClinicController extends Controller
 
     public function update(UpdateClinicRequest $request, Clinic $clinic): JsonResponse
     {
-
         $clinic->updateOrFail($request->all());
         $clinic->push();
+
         return response()->json($clinic, JsonResponse::HTTP_ACCEPTED);
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Clinic $clinic): Response
     {
         $clinic->deleteOrFail();
-        return response(status:Response::HTTP_NO_CONTENT);
+
+        return response(status: Response::HTTP_NO_CONTENT);
     }
 }

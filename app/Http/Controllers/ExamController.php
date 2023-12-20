@@ -21,12 +21,12 @@ class ExamController extends Controller
         return response()->json($this->exam->paginate(20, ['*'], 'page'));
     }
 
-    public function store(StoreExamRequest $request) : Response
+    public function store(StoreExamRequest $request): Response
     {
         $this->exam->createOrFail($request->all());
 
-        return response(status: Response::HTTP_CREATED, headers:[
-            'Location' => url("/api/exams/{$this->exam->id}")
+        return response(status: Response::HTTP_CREATED, headers: [
+            'Location' => url("/api/exams/{$this->exam->id}"),
         ]);
     }
 
@@ -36,15 +36,17 @@ class ExamController extends Controller
     }
 
     public function update(UpdateExamRequest $request, Exam $exam): JsonResponse
-    { 
+    {
         $exam->updateOrFail($request->all());
         $exam->push();
+
         return response()->json($exam, JsonResponse::HTTP_ACCEPTED);
     }
 
     public function destroy(Exam $exam): Response
     {
         $exam->deleteOrFail();
-        return response(status:Response::HTTP_NO_CONTENT);
+
+        return response(status: Response::HTTP_NO_CONTENT);
     }
 }

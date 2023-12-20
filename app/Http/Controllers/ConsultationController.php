@@ -12,7 +12,6 @@ use Illuminate\Http\Response;
 
 class ConsultationController extends Controller
 {
-
     public function __construct(private Consultation $consultation)
     {
     }
@@ -25,8 +24,9 @@ class ConsultationController extends Controller
     public function store(StoreConsultationRequest $request): Response
     {
         $this->consultation->create($request->all());
-        return response(status:Response::HTTP_CREATED, headers:[
-            'Location' => url("/api/consultations/{$this->consultation->id}")
+
+        return response(status: Response::HTTP_CREATED, headers: [
+            'Location' => url("/api/consultations/{$this->consultation->id}"),
         ]);
     }
 
@@ -39,12 +39,14 @@ class ConsultationController extends Controller
     {
         $consultation->updateOrFail($request->all());
         $consultation->push();
+
         return response()->json($consultation, JsonResponse::HTTP_ACCEPTED);
     }
 
     public function destroy(Consultation $consultation): Response
     {
         $consultation->deleteOrFail();
-        return response(status:Response::HTTP_NO_CONTENT);
+
+        return response(status: Response::HTTP_NO_CONTENT);
     }
 }

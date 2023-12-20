@@ -2,7 +2,8 @@
 
 final class AppointmentType
 {
-    const CONSULTATION  = 'consulta';
-    const EXAM = 'exame';
+    public const CONSULTATION = 'consulta';
+
+    public const EXAM = 'exame';
     //const FOLLOW_UP = 'acompanhamento';
 }

@@ -19,12 +19,12 @@ class Patient extends Model
         'gender_biological',
     ];
 
-    public function maiorDeIdade(string $birthday): bool 
+    public function maiorDeIdade(string $birthday): bool
     {
         return true;
     }
 
-    public function appointments(): HasMany 
+    public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);
     }

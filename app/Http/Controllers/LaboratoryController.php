@@ -12,40 +12,41 @@ use Illuminate\Http\Response;
 
 class LaboratoryController extends Controller
 {
-
     public function __construct(private Laboratory $laboratory)
     {
     }
 
     public function index(): JsonResponse
     {
-        return response()->json($this->laboratory->paginnate('20',['*'],'page'));
+        return response()->json($this->laboratory->paginnate('20', ['*'], 'page'));
     }
 
     public function store(StoreLaboratoryRequest $request): Response
     {
         $this->laboratory->create($request->all());
 
-        return response(status:JsonResponse::HTTP_CREATED, headers:[
-            'Location' => url("/api/laboratorio/{$this->laboratory->id}")
+        return response(status: JsonResponse::HTTP_CREATED, headers: [
+            'Location' => url("/api/laboratorio/{$this->laboratory->id}"),
         ]);
     }
 
     public function show(Laboratory $laboratory)
     {
-        return response()->json($laboratory,JsonResponse::HTTP_OK);
+        return response()->json($laboratory, JsonResponse::HTTP_OK);
     }
 
     public function update(UpdateLaboratoryRequest $request, Laboratory $laboratory): JsonResponse
     {
         $laboratory->updateOrFail($request->all());
         $laboratory->push();
+
         return response()->json($laboratory, JsonResponse::HTTP_ACCEPTED);
     }
 
-    public function destroy(Laboratory $laboratory) : Response
+    public function destroy(Laboratory $laboratory): Response
     {
         $laboratory->deleteOrFail();
-        return response(status:JsonResponse::HTTP_NO_CONTENT);
+
+        return response(status: JsonResponse::HTTP_NO_CONTENT);
     }
 }

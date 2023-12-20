@@ -13,10 +13,10 @@ class Exam extends Model
     protected $fillable = [
         'description',
         'name',
-        'code'
+        'code',
     ];
 
-    public function appointment() : BelongsTo	
+    public function appointment(): BelongsTo
     {
         return $this->belongsTo(Appointment::class);
     }

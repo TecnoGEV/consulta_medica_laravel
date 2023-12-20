@@ -13,15 +13,15 @@ class Consultation extends Model
     protected $fillable = [
         'description',
         'name',
-        'code'
+        'code',
     ];
-    
-    public function doctor() : BelongsTo
+
+    public function doctor(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);
     }
-    
-    public function appointment() : BelongsTo 
+
+    public function appointment(): BelongsTo
     {
         return $this->belongsTo(Appointment::class);
     }

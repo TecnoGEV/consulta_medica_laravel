@@ -12,26 +12,26 @@ use Illuminate\Http\Response;
 
 class SpecializationController extends Controller
 {
-    
     public function __construct(private Specialization $specialization)
     {
-        
+
     }
 
-    public function index() : JsonResponse
+    public function index(): JsonResponse
     {
-        return response()->json($this->specialization->paginate('20',['*'], 'page')); 
+        return response()->json($this->specialization->paginate('20', ['*'], 'page'));
     }
 
-    public function store(StoreSpecializationRequest $request) : Response
+    public function store(StoreSpecializationRequest $request): Response
     {
         $this->specialization->create($request->all());
+
         return response(status: Response::HTTP_CREATED, headers: [
-            'Location' => url("/api/specializations/{$this->specialization->id}")
+            'Location' => url("/api/specializations/{$this->specialization->id}"),
         ]);
     }
 
-    public function show(Specialization $specialization) : JsonResponse
+    public function show(Specialization $specialization): JsonResponse
     {
         return response()->json($specialization);
     }
@@ -40,12 +40,14 @@ class SpecializationController extends Controller
     {
         $specialization->updateOrFail($request->all());
         $specialization->push();
-        return response()->json($specialization, status:JsonResponse::HTTP_ACCEPTED);
+
+        return response()->json($specialization, status: JsonResponse::HTTP_ACCEPTED);
     }
 
-    public function destroy(Specialization $specialization) : Response
+    public function destroy(Specialization $specialization): Response
     {
         $specialization->deleteOrFail();
-        return response(status:Response::HTTP_NO_CONTENT);
+
+        return response(status: Response::HTTP_NO_CONTENT);
     }
 }

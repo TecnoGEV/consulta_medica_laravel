@@ -21,15 +21,16 @@ class DiagnosisController extends Controller
         return response()->json($this->diagnosis->paginate('20', ['*'], 'page'));
     }
 
-    public function store(StoreDiagnosisRequest $request) : Response
+    public function store(StoreDiagnosisRequest $request): Response
     {
         $this->diagnosis->create($request->all());
-        return response(status:Response::HTTP_CREATED, headers: [
-            'Location' => url("/api/diagnosis/{$this->diagnosis->id}")
+
+        return response(status: Response::HTTP_CREATED, headers: [
+            'Location' => url("/api/diagnosis/{$this->diagnosis->id}"),
         ]);
     }
 
-    public function show(Diagnosis $diagnosis) : JsonResponse
+    public function show(Diagnosis $diagnosis): JsonResponse
     {
         return response()->json($diagnosis);
     }
@@ -38,12 +39,14 @@ class DiagnosisController extends Controller
     {
         $diagnosis->updateOrFail($request->all());
         $diagnosis->push();
+
         return response()->json($diagnosis, JsonResponse::HTTP_ACCEPTED);
     }
 
     public function destroy(Diagnosis $diagnosis): Response
     {
         $diagnosis->deleteOrFail();
-        return response(status:Response::HTTP_NO_CONTENT);
+
+        return response(status: Response::HTTP_NO_CONTENT);
     }
 }

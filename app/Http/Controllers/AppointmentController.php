@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
 use App\Models\Appointment;
-use Cep\ViaCep;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -22,13 +21,14 @@ class AppointmentController extends Controller
         return response()->json($this->appointment->paginate('20', ['*'], 'page'));
     }
 
-    public function store(StoreAppointmentRequest $request) : Response
+    public function store(StoreAppointmentRequest $request): Response
     {
         $this->appointment->create($request->all());
+
         return response(
-            status:Response::HTTP_CREATED, 
-            headers:[
-                'Location' => url("/api/appointments/{$this->appointment->id}")
+            status: Response::HTTP_CREATED,
+            headers: [
+                'Location' => url("/api/appointments/{$this->appointment->id}"),
             ]
         );
     }
@@ -91,12 +91,14 @@ class AppointmentController extends Controller
     {
         $appointment->updateOrFail($request->all());
         $appointment->push();
-        return response()->json($appointment, status:JsonResponse::HTTP_ACCEPTED);
+
+        return response()->json($appointment, status: JsonResponse::HTTP_ACCEPTED);
     }
 
     public function destroy(Appointment $appointment): Response
     {
         $appointment->deleteOrFail();
-        return response(status:Response::HTTP_NO_CONTENT);
+
+        return response(status: Response::HTTP_NO_CONTENT);
     }
 }

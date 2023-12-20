@@ -3,12 +3,10 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -37,7 +35,8 @@ class Handler extends ExceptionHandler
             if ($request->is('api/*')) {
                 $pattern = '/^No query results/';
                 preg_match($pattern, $e->getMessage(), $matches);
-                return response()->json(['err' => $matches[0] ], $e->getStatusCode());
+
+                return response()->json(['err' => $matches[0]], $e->getStatusCode());
             }
         });
 

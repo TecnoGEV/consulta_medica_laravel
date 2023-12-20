@@ -13,7 +13,7 @@ use Illuminate\Http\Response;
 class DoctorController extends Controller
 {
     public function __construct(private Doctor $doctor)
-    {        
+    {
     }
 
     public function index(): JsonResponse
@@ -24,8 +24,9 @@ class DoctorController extends Controller
     public function store(StoreDoctorRequest $request): Response
     {
         $this->doctor->create($request->all());
-        return response(status: Response::HTTP_CREATED, headers:[
-            'Location'=> url("/api/doctors/{$this->doctor->id}")
+
+        return response(status: Response::HTTP_CREATED, headers: [
+            'Location' => url("/api/doctors/{$this->doctor->id}"),
         ]);
     }
 
@@ -38,12 +39,14 @@ class DoctorController extends Controller
     {
         $doctor->updateOrFail($request->all());
         $doctor->push();
-        return response()->json($doctor,JsonResponse::HTTP_ACCEPTED);
+
+        return response()->json($doctor, JsonResponse::HTTP_ACCEPTED);
     }
 
     public function destroy(Doctor $doctor): Response
     {
         $doctor->deleteOrFail();
-        return response(status:Response::HTTP_NO_CONTENT);
+
+        return response(status: Response::HTTP_NO_CONTENT);
     }
 }
