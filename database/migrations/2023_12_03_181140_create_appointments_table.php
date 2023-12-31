@@ -12,6 +12,10 @@ return new class () extends Migration {
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('patient_id')->constrained();
+            $table->string('date_appointment');
+            $table->string('hours_appointment');
+            $table->softDeletesDatetime();
             $table->timestamps();
         });
     }

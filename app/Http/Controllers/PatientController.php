@@ -6,15 +6,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
+use App\Models\Address;
 use App\Models\Patient;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class PatientController extends Controller
 {
-    public function __construct(private Patient $patient)
-    {
-    }
+    public function __construct(private Patient $patient){ }
 
     public function index(): JsonResponse
     {
@@ -23,7 +22,14 @@ class PatientController extends Controller
 
     public function store(StorePatientRequest $request): Response
     {
+        $endereco = array();
+
+        dd($request->all());
+        
         $patient = $this->patient->create($request->all());
+        $endereco  = $request->input('endereco');
+        $patient->address()->create($endereco);
+
         return response(status:Response::HTTP_CREATED, headers:[
           'Location' => url("/api/patients/{$patient->id}")
         ]);
@@ -81,7 +87,12 @@ class PatientController extends Controller
      */
     public function show(Patient $patient) : JsonResponse
     {
-        return response()->json($patient,JsonResponse::HTTP_OK);
+        return response()->json($patient->address(),JsonResponse::HTTP_OK);
+    }
+
+    public function generateTicketPatient(Patient $patient) : JsonResponse
+    {
+        return response()->json($patient->appointments());
     }
 
     public function update(UpdatePatientRequest $request, Patient $patient): JsonResponse

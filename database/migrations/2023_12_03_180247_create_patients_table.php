@@ -11,7 +11,13 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create('patients', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('nome_completo');
+            $table->date('data_nascimento');
+            $table->string('sexo');
+            $table->string('cpf')->unique()->nullable();
+            $table->string('rg')->unique()->nullable();
+            $table->string('passaporte')->unique()->nullable();
             $table->timestamps();
         });
     }
