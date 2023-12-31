@@ -39,7 +39,23 @@ POST http://127.0.0.1:8000/api/patients
 Content-Type: application/json
 
 {
-    "id":10,
+    "nome": "carlos",
+    "sexo": "masculino",
+    "genero": "masculino",
+    "data_nascimento": "10/04/2010",
+    "rg": "10/04/2010",
+    "cpf":"455453464",
+    "passaporte": "03485340593",
+    "nacionalidade": "brasileria",
+    "naturalidade": "rio de janeiro",
+    "nascido_vivo": "10/04/2010",
+    "cns": "353535353",
+    "numero": "175",
+    "localidade": "rua doutor renato",
+    "bairro": "Austin",
+    "cidade": "Nova Iguaçu",
+    "estado": "Rio de Janeiro",
+    "uf": "RJ"
 }
 
 ###
