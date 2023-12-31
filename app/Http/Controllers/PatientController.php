@@ -22,14 +22,9 @@ class PatientController extends Controller
 
     public function store(StorePatientRequest $request): Response
     {
-        $endereco = array();
-
-        dd($request->all());
-        
         $patient = $this->patient->create($request->all());
-        $endereco  = $request->input('endereco');
-        $patient->address()->create($endereco);
-
+        $patient->address()->create($request->all());
+        
         return response(status:Response::HTTP_CREATED, headers:[
           'Location' => url("/api/patients/{$patient->id}")
         ]);
