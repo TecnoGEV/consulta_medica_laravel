@@ -1,7 +1,11 @@
 POST http://127.0.0.1:8000/api/appointments
+Content-Type: application/json
 
 {
-    "id": "au5o" 
+    "id": "au5o",
+    "patient": 2,
+    "date_appointment": "2023-04-23",
+    "hours_appointment": "10:00"
 }
 
 ###
@@ -25,14 +29,17 @@ GET http://127.0.0.1:8000/api/doctors
 GET http://127.0.0.1:8000/api/appointments/1
 
 ###
-GET http://127.0.0.1:8000/api/patient/ficha-tecnica/1
+GET http://127.0.0.1:8000/api/appointments
+
+###
+GET http://127.0.0.1:8000/api/patient/ficha-medica/1
 
 ####
 POST http://127.0.0.1:8000/api/patients
 Content-Type: application/json
 
 {
-    "id":10
+    "id":10,
 }
 
 ###

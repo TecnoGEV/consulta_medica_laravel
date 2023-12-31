@@ -84,6 +84,11 @@ class PatientController extends Controller
         return response()->json($patient,JsonResponse::HTTP_OK);
     }
 
+    public function generateTicketPatient(Patient $patient) : JsonResponse
+    {
+        return response()->json($patient->appointments());
+    }
+
     public function update(UpdatePatientRequest $request, Patient $patient): JsonResponse
     {
         $patient->update($request->all());

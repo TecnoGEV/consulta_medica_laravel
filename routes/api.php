@@ -38,3 +38,4 @@ Route::apiResource('/laboratories',     LaboratoryController::class);
 Route::apiResource('/patients',       PatientController::class);
 Route::apiResource('/reports',          ReportController::class);
 Route::apiResource('/specializations',  SpecializationController::class);
+Route::get('/patient/ficha-medica/{patient}', [PatientController::class, "generateTicketPatient"]);

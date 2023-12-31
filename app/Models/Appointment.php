@@ -25,13 +25,28 @@ class Appointment extends Model
      * )
      */
     protected $fillable = [
-        'date',
-        'hour',
+        'date_appointment',
+        'hours_appointment',
         'type_appointment',
+    ];
+
+    protected $hidden=[
+        'deleted_at',
+        'created_at',
+        'updated_at'
     ];
 
     public function patient(): BelongsTo
     {
         return $this->belongsTo(Patient::class);
     }
+    
+
+    public function createPatientApointment(array $arrayParam) : self
+    {
+        $appointment = Patient::find($arrayParam['patient']);
+        return $appointment->appointments()->create($arrayParam);
+    }
+
+
 }

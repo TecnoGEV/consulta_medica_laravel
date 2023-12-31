@@ -18,12 +18,14 @@ class AppointmentController extends Controller
 
     public function index(): JsonResponse
     {
-        return response()->json($this->appointment->paginate('20', ['*'], 'page'));
+        return response()->json($this->appointment->with('patient')->paginate('20', ['*'], 'page'));
     }
 
     public function store(StoreAppointmentRequest $request): Response
     {
-        $appointment = $this->appointment->create($request->all());
+
+        $data = $request->all();
+        $appointment = $this->appointment->createPatientApointment($data);
         return response(
             status:Response::HTTP_CREATED, 
             headers:[
