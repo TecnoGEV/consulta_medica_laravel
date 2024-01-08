@@ -26,7 +26,6 @@ class Patient extends Model
 
     protected $primaryKey = 'id';
 
-
     protected $fillable = [
         'first_name',
         'last_name',
@@ -59,10 +58,14 @@ class Patient extends Model
         );
     }
 
-    protected function maiorIdade() : int
+    public function maiorIdade() : bool
     {
-        return 18;
+        $dataNascimentoObj = new \DateTime($this->birthday);
+        $dataAtual = new \DateTime();
+        $diferenca = $dataAtual->diff($dataNascimentoObj);
+        return ($diferenca->y > 18 || ($diferenca->y == 18 && $dataAtual >= $dataNascimentoObj));
     }
+
     protected function cpf(): Attribute
     {
         return Attribute::make(
