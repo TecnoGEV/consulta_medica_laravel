@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
-use App\Models\Address;
 use App\Models\Patient;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -23,13 +22,13 @@ class PatientController extends Controller
     public function store(StorePatientRequest $request): Response
     {
         $patient = $this->patient->create($request->all());
-        $patient->address()->create($request->all());
-        
+        $patient->address()->create($request->input('endereco'));
+
         return response(status:Response::HTTP_CREATED, headers:[
           'Location' => url("/api/patients/{$patient->id}")
         ]);
-    
-    }    
+
+    }
 
     /**
      * @OA\Get(

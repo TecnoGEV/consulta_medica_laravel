@@ -50,12 +50,18 @@ Content-Type: application/json
     "naturalidade": "rio de janeiro",
     "nascido_vivo": "10/04/2010",
     "cns": "353535353",
-    "numero": "175",
-    "localidade": "rua doutor renato",
-    "bairro": "Austin",
-    "cidade": "Nova Iguaçu",
-    "estado": "Rio de Janeiro",
-    "uf": "RJ"
+    "endereco": {
+        "numero": "175",
+        "localidade": "rua doutor renato",
+        "bairro": "Austin",
+        "cidade": "Nova Iguaçu",
+        "estado": "Rio de Janeiro",
+        "uf": "RJ"
+    },
+    "pagamento": {
+        "valor": "R$0303",
+        "status": "pago"
+    }
 }
 
 ###

@@ -4,8 +4,10 @@ namespace App\Exceptions;
 
 use Exception;
 use GuzzleHttp\Exception\ServerException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -51,6 +53,11 @@ class Handler extends ExceptionHandler
             }
         });
 
-
+        $this->renderable(function (QueryException $e, Request $request) {
+            if ($request->is('api/*')) {
+                Log::error("{$e->getMessage()} :: {$e->getCode()}");
+                return response()->json(['err' => $e->getMessage()], 400);
+            }
+        });
     }
 }

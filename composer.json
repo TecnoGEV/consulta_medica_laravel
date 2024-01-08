@@ -10,6 +10,7 @@
         "doctrine/dbal": "^3.5.1",
         "dossantoscarlos/apicep": "^1.1",
         "guzzlehttp/guzzle": "^7.2",
+        "laradumps/laradumps": "^2.3",
         "laravel/framework": "^10.10",
         "laravel/octane": "^2.1",
         "laravel/passport": "^11.10",
