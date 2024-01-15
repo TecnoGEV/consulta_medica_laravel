@@ -4,18 +4,11 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Exception;
-
 trait ValidateCPF
 {
-    public function cpf_invalid($cpf): string
+    public function cpf_invalid($cpf): bool
     {
-
-        if ($this->cpf_with_str($cpf) || strlen($cpf)  !== 11) {
-            throw new Exception("Cpf invalido");
-        }
-
-        return $cpf;
+        return $this->cpf_with_str($cpf) || strlen($cpf)  !== 11;
     }
 
     private function cpf_with_str($cpf): bool

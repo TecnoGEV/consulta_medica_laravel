@@ -11,6 +11,11 @@ class Doctor extends Model
 {
     use HasFactory;
 
+
+    protected $table = 'doctors';
+
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'first_name',
         'last_name',
@@ -25,6 +30,6 @@ class Doctor extends Model
 
     public function specialization(): BelongsToMany
     {
-        return $this->belongsToMany(Specialization::class, 'specialization_doctors', 'doctor_id', 'specialization_id');
+        return $this->belongsToMany(Specialization::class, 'specialization_doctors', 'doctors_id', 'specialization_id');
     }
 }

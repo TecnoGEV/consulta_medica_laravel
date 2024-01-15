@@ -13,13 +13,13 @@ class Specialization extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'nome',
         'description',
         'code_specialization',
     ];
 
-    public function specialization(): BelongsToMany
+    public function doctors(): BelongsToMany
     {
-        return $this->belongsToMany(Doctor::class, 'specialization_doctors', 'specialization_id', 'doctor_id');
+        return $this->belongsToMany(Doctor::class, 'specialization_doctors', 'specialization_id', 'doctors_id');
     }
 }

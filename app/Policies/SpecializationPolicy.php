@@ -12,7 +12,7 @@ class SpecializationPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,7 @@ class SpecializationPolicy
      */
     public function view(User $user, Specialization $specialization): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -28,7 +28,7 @@ class SpecializationPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -36,7 +36,7 @@ class SpecializationPolicy
      */
     public function update(User $user, Specialization $specialization): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -44,7 +44,7 @@ class SpecializationPolicy
      */
     public function delete(User $user, Specialization $specialization): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -52,7 +52,7 @@ class SpecializationPolicy
      */
     public function restore(User $user, Specialization $specialization): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -60,6 +60,6 @@ class SpecializationPolicy
      */
     public function forceDelete(User $user, Specialization $specialization): bool
     {
-        //
+        return true;
     }
 }

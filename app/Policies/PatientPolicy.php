@@ -12,7 +12,7 @@ class PatientPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -20,7 +20,7 @@ class PatientPolicy
      */
     public function view(User $user, Patient $patient): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -36,7 +36,7 @@ class PatientPolicy
      */
     public function update(User $user, Patient $patient): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -44,7 +44,7 @@ class PatientPolicy
      */
     public function delete(User $user, Patient $patient): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -52,7 +52,7 @@ class PatientPolicy
      */
     public function restore(User $user, Patient $patient): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -60,6 +60,6 @@ class PatientPolicy
      */
     public function forceDelete(User $user, Patient $patient): bool
     {
-        //
+        return true;
     }
 }

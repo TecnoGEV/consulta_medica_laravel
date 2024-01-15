@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Traits\ValidateCPF;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,7 @@ class Patient extends Model
     use HasFactory;
     use ValidateCPF;
 
-    protected $table= 'patients';
+    protected $table = 'patients';
 
     protected $primaryKey = 'id';
 
@@ -43,14 +44,14 @@ class Patient extends Model
     {
         return Attribute::make(
             get: fn (string $first_name) => ucfirst($first_name),
-            set: fn(string $first_name) => strtoupper($first_name)
+            set: fn (string $first_name) => strtoupper($first_name)
         );
     }
 
     protected function birthday(): Attribute
     {
         return Attribute::make(
-            get: fn(string $birthday) => $birthday,
+            get: fn (string $birthday) => $birthday,
             set: function (string $birthday) {
                 $birthday = new \DateTime($birthday);
                 return $birthday->format('Y-m-d');
@@ -58,7 +59,7 @@ class Patient extends Model
         );
     }
 
-    public function maiorIdade() : bool
+    public function maiorIdade(): bool
     {
         $dataNascimentoObj = new \DateTime($this->birthday);
         $dataAtual = new \DateTime();
@@ -66,13 +67,6 @@ class Patient extends Model
         return ($diferenca->y > 18 || ($diferenca->y == 18 && $dataAtual >= $dataNascimentoObj));
     }
 
-    protected function cpf(): Attribute
-    {
-        return Attribute::make(
-            get: fn(string $cpf) => $cpf,
-            set: fn (string $cpf) => self::cpf_invalid($cpf)
-        );
-    }
 
     public function appointments(): HasMany
     {
