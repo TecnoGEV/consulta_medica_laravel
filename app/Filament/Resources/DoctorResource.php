@@ -29,22 +29,16 @@ class DoctorResource extends Resource
         return $form
             ->columns(12)
             ->schema([
-                TextInput::make('name')
-                    ->columnSpan(12)
+                TextInput::make('name')->columnSpan(12)
                     ->helperText('Forneça o nome completo')
                     ->formatStateUsing(fn (?string $state) => strtoupper($state))
-                    ->required()
-                    ->minLength(10)
-                    ->maxLength(255),
-                TextInput::make('crm')
-                    ->columnSpan(6)
-                    ->required()
-                    ->maxLength(255),
+                    ->required()->minLength(10)->maxLength(255),
+                TextInput::make('crm')->columnSpan(6)
+                    ->required()->maxLength(255),
                 Select::make('specialization')
                     ->columnSpan(6)
                     ->relationship('specialization', 'nome')
                     ->multiple()
-
             ]);
     }
 
