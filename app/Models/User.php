@@ -9,11 +9,12 @@ use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements HasAvatar, FilamentUser, HasName
+class User extends Authenticatable //implements HasAvatar, FilamentUser, HasName
 {
     use HasApiTokens;
     use HasFactory;
@@ -60,13 +61,6 @@ class User extends Authenticatable implements HasAvatar, FilamentUser, HasName
 
         return true;
     }
-    public function getFilamentAvatarUrl(): ?string
-    {
-        return $this->avatar_url;
-    }
 
-    public function getFilamentName(): string
-    {
-        return "{$this->first_name} {$this->last_name}";
-    }
+
 }
