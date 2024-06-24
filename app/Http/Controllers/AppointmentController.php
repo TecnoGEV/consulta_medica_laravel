@@ -23,11 +23,10 @@ class AppointmentController extends Controller
 
     public function store(StoreAppointmentRequest $request): Response
     {
-
         $data = $request->all();
         $appointment = $this->appointment->createPatientApointment($data);
         return response(
-            status:Response::HTTP_CREATED, 
+            status:Response::HTTP_CREATED,
             headers:[
                 'Location' => url("/api/appointments/{$appointment->id}")
             ]
