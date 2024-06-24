@@ -16,12 +16,20 @@ class UserEventSubscriber
      */
     public function handleUserLogin(Login $event): void
     {
+
+        $id = intval($event->user->id);
+
         $audit = Audit::create([
-            'user_id' => $event->user->id,
-            'event' => 'authentication',
+            'user_id' => $id,
+            'event' => 'iniciando login',
         ]);
 
-        dd($audit);
+
+        if (isset($audit->id)) {
+            $audit->update([
+                'event'=>'login',
+            ]);
+        }
     }
 
     /**
@@ -29,8 +37,9 @@ class UserEventSubscriber
      */
     public function handleUserLogout(Logout $event): void
     {
+        $id = intval($event->user->id);
         Audit::create([
-            'user_id' => $event->user->id,
+            'user_id' => $id,
             'event' => 'logout',
         ]);
     }

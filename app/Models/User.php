@@ -62,5 +62,9 @@ class User extends Authenticatable //implements HasAvatar, FilamentUser, HasName
         return true;
     }
 
+    public function audit(): HasMany
+    {
+        return $this->hasMany(Audit::class);
+    }
 
 }
